@@ -10,10 +10,11 @@ export  interface IUser {
 
 
 export  interface RepositoryUsers {
-    createUser(data: IUser): boolean,
-    getUser(): IUser,
-    updateUser(data: IUser, id: string): IUser,
-    deteleUser(id: string): boolean
+    createUser(data: IUser): any,
+    findUser(Filter: Object): any
+    //getUser(): IUser,
+    //updateUser(data: IUser, id: string): IUser,
+    //deteleUser(id: string): boolean
 
 }
 

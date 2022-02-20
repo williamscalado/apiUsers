@@ -14,7 +14,7 @@ export interface RepositoryLogin {
 
 export interface IpasswordUsecase{
 
-    cryptoPassword(password: string),
+    cryptoPassword(password: string):any,
     
 
 }
