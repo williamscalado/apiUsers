@@ -1,13 +1,12 @@
 import { Router, Request, Response } from "express";
-import { userConnectMongo } from "../../Repository/User/ConnectMongo";
-
+import { createUser, deleteUser, FindByUser, updateUser } from "../../Controllers/User";
 
 
 const routerUser = Router()
 
-routerUser.get('/user', userConnectMongo, (request: Request, response: Response) => {
-    response.send('ola!')
-})
-
+routerUser.get('/user', FindByUser)
+routerUser.post('/user', createUser)
+routerUser.patch('/user', updateUser)
+routerUser.delete('/user', deleteUser)
 
 export { routerUser }

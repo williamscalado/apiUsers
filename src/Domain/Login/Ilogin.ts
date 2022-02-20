@@ -1,13 +1,20 @@
 import IUser from '../User/IUser'
 
-interface Ilogin {
+export interface Ilogin {
     email: string,
     password: string
 }
 
-interface RepositoryLogin {
+export interface RepositoryLogin {
 
     findByUser(data: Ilogin): IUser,
     logOut(): void
+
+}
+
+export interface IpasswordUsecase{
+
+    cryptoPassword(password: string),
+    
 
 }

@@ -1,15 +1,15 @@
-export default interface IUser {
+export  interface IUser {
     _id?: string,
     name: string,
     lastName: string,
     email: string,
     password: string,
-    createAt: Date,
-    active: boolean
+    createAt?: Date,
+    active?: boolean
 }
 
 
-export default interface RepositoryUsers {
+export  interface RepositoryUsers {
     createUser(data: IUser): boolean,
     getUser(): IUser,
     updateUser(data: IUser, id: string): IUser,
