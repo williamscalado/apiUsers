@@ -2,7 +2,7 @@ import Express from "express";
 import dotenv from 'dotenv'
 import { routerUser } from './Routers/User/index'
 
-dotenv.config() 
+dotenv.config()
 
 const app = Express();
 
