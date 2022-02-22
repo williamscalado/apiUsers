@@ -1,3 +1,5 @@
+import { boolean } from "yup"
+
 export  interface IUser {
     _id?: string,
     name: string,
@@ -10,11 +12,21 @@ export  interface IUser {
 
 
 export  interface RepositoryUsers {
-    createUser(data: IUser): any,
+    createUser(data: IUser): any
     findUser(Filter: Object): any
-    //getUser(): IUser,
-    //updateUser(data: IUser, id: string): IUser,
-    //deteleUser(id: string): boolean
+    updateUser(data: IUser, _id: string): any
+    deleteUser(id: string):any
 
 }
+
+
+export  interface userUseCase {
+    createUser(data: IUser): any
+    findUser(Filter: Object): any
+    updateUser(data: IUser, _id: string): any
+    deleteUser(id: string):any
+
+}
+
+
 

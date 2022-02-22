@@ -1,36 +1,32 @@
 import { Request, Response } from "express";
 import { IUser } from "../../Domain/User/IUser";
-import { passwordUseCase } from '../../UseCase/login/passwordUseCase'
-import validator from "validator";
-import { userRepository } from "../../Repository/User/userRepository";
+import { userUseCase } from "../../UseCase/User/userUseCase";
+import { functions } from "../../config/functions";
 
-function checkDataUser(data: any, msg: string) {
-    let bodyMsg = {
-        erro: true,
-        message: msg
-    }
-    let Erro = JSON.stringify(bodyMsg)
-    if (typeof data == 'undefined' || !data) throw new Error(Erro).message
-}
-
+// constroller
 const createUser = async (req: Request, res: Response) => {
     let user: IUser = req.body
-    checkDataUser(user.name, 'Name is required')
-    checkDataUser(user.lastName, 'Last Name is required')
-    checkDataUser(user.password, 'Password is required')
-    if (!validator.isEmail(user.email)) return res.status(500).json({erro:"Email incorrect"}) 
+    const keyPassword = process.env.SECRETKEYPASSWORD
 
-    const newPassword = passwordUseCase.cryptoPassword(user.password)
-    user = {
-        ...user,
-        password: newPassword
+    try {
+
+        const newPassword = functions.cryptoPassword(user.password, `${keyPassword}`)
+        user = {
+            ...user,
+            password: newPassword
+        }
+
+        const resultCreate = await userUseCase.createUser(user)
+        if (resultCreate) throw resultCreate
+
+        res.status(201).json()
+
+    } catch (error) {
+
+        res.status(400).json(error)
+
     }
-    
-    const emailExist = await userRepository.findUser({email : user.email});
-    if(emailExist)  return res.status(500).json({erro:"Email Exist"})
-    
-    userRepository.createUser(user)
-    res.status(200).json({ erro: false, message: "User create!" })
+
 }
 
 
@@ -44,8 +40,8 @@ function deleteUser(req: Request, res: Response) {
 }
 
 
-function FindByUser(req: Request, res: Response) {
-
+const FindByUser = async (req: Request, res: Response) => {
+    res.status(200).json({ ok: "ok" })
 }
 
 

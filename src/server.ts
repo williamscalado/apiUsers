@@ -1,6 +1,7 @@
 import Express, { Request, Response } from "express";
 import dotenv from 'dotenv'
 import { routerUser } from './Routers/User/index'
+import { routerLogin } from "./Routers/Login";
 
 dotenv.config()
 
@@ -10,6 +11,7 @@ app.use(Express.json())
 
 //Routers
 app.use(routerUser)
+app.use(routerLogin)
 
 
 

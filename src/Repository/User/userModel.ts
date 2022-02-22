@@ -1,6 +1,6 @@
-import { userConnectMongo } from '../../Middleware/MongoDB/ConnectMongo';
 import { IUser } from '../../Domain/User/IUser'
 import mongoose from 'mongoose';
+import { userConnectMongo } from '../../config/database';
 
 
 const { Schema } = mongoose
