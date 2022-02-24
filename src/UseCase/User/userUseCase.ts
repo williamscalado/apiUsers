@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { functions } from "../../config/functions";
 import { IUser } from "../../Domain/User/IUser";
 import { errosApiSend } from "../../Error/apiErrorMessage";
-import { userModel } from "../../Repository/User/userModel";
 import { userRepository } from "../../Repository/User/userRepository";
 
 //usecase
