@@ -14,12 +14,13 @@ export const loginUser = async (req: Request, res: Response) => {
         const data: Ilogin = req.body
         await loginModel.validate(data)        
         const loginUserExec = await loginUserUseCase(data)
-        if(!loginUserExec) {res.status(401); throw 'erro'}
+        if(!loginUserExec) {res.status(401); throw new Error()}
 
-        res.status(200).json({result  : loginUserExec})
+        const { status } = loginUserExec;
+        res.status(status).json(loginUserExec)
         
     } catch (error) {
-        res.status(401).json({result  : error})
+        res.status(401).json(error)
         
     }
    

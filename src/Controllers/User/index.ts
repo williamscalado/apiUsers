@@ -2,13 +2,17 @@ import { Request, Response } from "express";
 import { IUser } from "../../Domain/User/IUser";
 import { userUseCase } from "../../UseCase/User/userUseCase";
 import { functions } from "../../config/functions";
+import { errosApiSend } from "../../Error/apiErrorMessage";
+import { userSchemaUpdate } from "../../Domain/User/userValidation";
+
+const keyPassword = process.env.SECRETKEYPASSWORD
 
 // constroller
 const createUser = async (req: Request, res: Response) => {
-    let user: IUser = req.body
-    const keyPassword = process.env.SECRETKEYPASSWORD
+
 
     try {
+        let user: IUser = req.body
 
         const newPassword = functions.cryptoPassword(user.password, `${keyPassword}`)
         user = {
@@ -28,15 +32,53 @@ const createUser = async (req: Request, res: Response) => {
     }
 
 }
+// constroller
+const findUserById = async (req: Request, res: Response) => {
+    try {
+        res.status(200).json(await userUseCase.findUserById(req.params.UserId).catch((e) => { throw e }))
+    } catch (error) {
+        res.status(401).json(errosApiSend('U003'))
+    }
+}
+
+const updateUser = async (req: Request, res: Response) => {
+
+    try {
+
+        const userDataUpdate = req.body
+        const userId = req.params.UserId
+        await userSchemaUpdate.validate(userDataUpdate)
+
+        if (userDataUpdate.password) userDataUpdate.password = 
+        functions
+        .cryptoPassword(userDataUpdate.password, `${keyPassword}`)
+
+        await userUseCase.updateUser(userDataUpdate, userId)
+        res.status(200).json({ userDataUpdate })
 
 
-function updateUser(req: Request, res: Response) {
+    } catch (err) {
+        res.status(401).json(err)
+    }
+
 
 }
 
 
-function deleteUser(req: Request, res: Response) {
+const  deleteUser = async (req: Request, res: Response) => {
 
+    try {
+        const userId = req.params.UserId
+     
+        if(!userId) throw 'This ID not valid!'
+
+        await userUseCase.deleteUser(userId)
+
+        res.status(200).json()
+    
+    }catch (error) {
+        
+    }
 }
 
 
@@ -49,5 +91,6 @@ export {
     createUser,
     updateUser,
     deleteUser,
-    FindByUser
+    FindByUser,
+    findUserById
 }
